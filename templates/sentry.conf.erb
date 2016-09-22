@@ -1,0 +1,37 @@
+## This file starts the sentry, celery worker and celery beat ###
+
+[program:sentry-web]
+startsecs = 0
+directory=/home/sentry/sentry_env/
+environment=SENTRY_CONF="/home/sentry/.sentry"
+command=<%= @config_path %> start
+autostart=true
+autorestart=true
+redirect_stderr=true
+user=sentry
+stdout_logfile=syslog
+stderr_logfile=syslog
+
+[program:sentry-worker]
+startsecs = 0
+directory=/home/sentry/sentry_env/
+environment=SENTRY_CONF="/home/sentry/.sentry"
+command=<%= @config_path %> celery worker
+autostart=true
+autorestart=true
+redirect_stderr=true
+user=sentry
+stdout_logfile=syslog
+stderr_logfile=syslog
+
+[program:sentry-cron]
+startsecs = 0
+directory=/home/sentry/sentry_env/
+environment=SENTRY_CONF="/home/sentry/.sentry"
+command=<%= @config_path %> celery beat
+autostart=true
+autorestart=true
+redirect_stderr=true
+stdout_logfile=syslog
+stderr_logfile=syslog
+
